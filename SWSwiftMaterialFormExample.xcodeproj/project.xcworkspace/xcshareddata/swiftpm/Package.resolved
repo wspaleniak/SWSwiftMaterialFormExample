@@ -1,0 +1,15 @@
+{
+  "originHash" : "1963db38d4b0c5449017c47d6376fbbc2c14dc2bec649e2fd4ff24bbd366bcfc",
+  "pins" : [
+    {
+      "identity" : "swswiftmaterialform",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wspaleniak/SWSwiftMaterialForm",
+      "state" : {
+        "revision" : "37b918f114c55fc17aa641c654cf643eb095b849",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}
