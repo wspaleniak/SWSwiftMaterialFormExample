@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		923F6AFE2C650CB500DA4417 /* SWSwiftMaterialForm in Frameworks */ = {isa = PBXBuildFile; productRef = 923F6AFD2C650CB500DA4417 /* SWSwiftMaterialForm */; };
+		920B79202C70146C007959D4 /* SWSwiftMaterialForm in Frameworks */ = {isa = PBXBuildFile; productRef = 920B791F2C70146C007959D4 /* SWSwiftMaterialForm */; };
 		923F6B002C650CCE00DA4417 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923F6AFF2C650CCE00DA4417 /* FormView.swift */; };
 		923F6B022C650CEB00DA4417 /* FormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923F6B012C650CEB00DA4417 /* FormViewModel.swift */; };
 		92C9C6E22C650C65001F8A29 /* SWSwiftMaterialFormExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C9C6E12C650C65001F8A29 /* SWSwiftMaterialFormExampleApp.swift */; };
@@ -29,7 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				923F6AFE2C650CB500DA4417 /* SWSwiftMaterialForm in Frameworks */,
+				920B79202C70146C007959D4 /* SWSwiftMaterialForm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 			);
 			name = SWSwiftMaterialFormExample;
 			packageProductDependencies = (
-				923F6AFD2C650CB500DA4417 /* SWSwiftMaterialForm */,
+				920B791F2C70146C007959D4 /* SWSwiftMaterialForm */,
 			);
 			productName = SWSwiftMaterialFormExample;
 			productReference = 92C9C6DE2C650C65001F8A29 /* SWSwiftMaterialFormExample.app */;
@@ -120,7 +120,7 @@
 			);
 			mainGroup = 92C9C6D52C650C65001F8A29;
 			packageReferences = (
-				923F6AFC2C650CB500DA4417 /* XCRemoteSwiftPackageReference "SWSwiftMaterialForm" */,
+				920B791E2C70146C007959D4 /* XCRemoteSwiftPackageReference "SWSwiftMaterialForm" */,
 			);
 			productRefGroup = 92C9C6DF2C650C65001F8A29 /* Products */;
 			projectDirPath = "";
@@ -358,9 +358,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		923F6AFC2C650CB500DA4417 /* XCRemoteSwiftPackageReference "SWSwiftMaterialForm" */ = {
+		920B791E2C70146C007959D4 /* XCRemoteSwiftPackageReference "SWSwiftMaterialForm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wspaleniak/SWSwiftMaterialForm";
+			repositoryURL = "https://github.com/wspaleniak/SWSwiftMaterialForm.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
@@ -369,9 +369,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		923F6AFD2C650CB500DA4417 /* SWSwiftMaterialForm */ = {
+		920B791F2C70146C007959D4 /* SWSwiftMaterialForm */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 923F6AFC2C650CB500DA4417 /* XCRemoteSwiftPackageReference "SWSwiftMaterialForm" */;
+			package = 920B791E2C70146C007959D4 /* XCRemoteSwiftPackageReference "SWSwiftMaterialForm" */;
 			productName = SWSwiftMaterialForm;
 		};
 /* End XCSwiftPackageProductDependency section */

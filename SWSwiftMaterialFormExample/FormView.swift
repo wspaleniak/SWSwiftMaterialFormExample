@@ -24,7 +24,10 @@ struct FormView: View {
     
     var body: some View {
         ScrollView {
-            erroredText
+            HStack {
+                info
+                changeStyleButton
+            }
             form
             nextButton
         }
@@ -34,49 +37,57 @@ struct FormView: View {
     
     // MARK: - Subviews
     
-    private var erroredText: some View {
-        Text("Errored fields: \(viewModel.erroredFields)")
-            .font(.caption)
-            .foregroundStyle(.gray)
-            .padding()
-    }
-    
     private var form: some View {
-        SWContainerView(spacing: spacing, errors: $viewModel.hasErrors) {
+        SWContainer(
+            spacing: spacing,
+            errors: $viewModel.hasErrors
+        ) {
             topSection
             middleSection
             bottomSection
         }
-        .containerStyle(key: .startWithFocusedFieldAfter, 0)
-        .containerStyle(key: .unfocusFields, $viewModel.unfocusFields)
-        .containerStyle(key: .erroredFields, $viewModel.erroredFields)
-        .containerStyle(key: .backgroundColor, viewModel.backgroundColor)
-        .containerStyle(key: .animation, .bouncy)
-        .containerStyle(key: .toolbarFont, .headline)
-        .containerStyle(key: .toolbarTintColor, .pink)
+        .containerStyle(.startWithFocusedFieldAfter, 0)
+        .containerStyle(.focusedFieldID, $viewModel.focusedFieldID)
+        .containerStyle(.unfocusFields, $viewModel.unfocusFields)
+        .containerStyle(.erroredFields, $viewModel.erroredFields)
+        .containerStyle(.backgroundColor, viewModel.backgroundColor)
+        .containerStyle(.animation, .bouncy)
+        .containerStyle(.toolbarFont, .headline)
+        .containerStyle(.toolbarTintColor, .indigo)
     }
     
     private var topSection: some View {
         VStack(spacing: spacing) {
-            Text("Top")
+            Text("Login")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title)
                 .bold()
             
-            SWTextFieldView(title: "Your name", text: $viewModel.nameText)
-                .fieldStyle(key: .configuration, .underlineShadow)
-                .fieldStyle(key: .required, .required(message: "Tell us your name please :)"))
-                .fieldStyle(key: .extraView, AnyView(nameExtraView))
+            SWTextField(
+                title: "Your name",
+                text: $viewModel.nameText
+            )
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.required, .required(message: "Tell us your name please :)"))
+            .fieldStyle(.customValidator, viewModel.nameValidator)
+            .fieldStyle(.limitText, 12)
+            .fieldStyle(.extraView, AnyView(nameExtraView))
             
-            SWTextFieldView(title: "Your email", text: $viewModel.emailText)
-                .fieldStyle(key: .configuration, .underlineShadow)
-                .fieldStyle(key: .required, .required(message: "We need your email bro xD"))
-                .fieldStyle(key: .standardValidator, .email)
+            SWTextField(
+                title: "Your email",
+                text: $viewModel.emailText
+            )
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.required, .required(message: "We need your email bro xD"))
+            .fieldStyle(.standardValidator, .email)
             
-            SWTextFieldView(title: "Your password", text: $viewModel.passwordText)
-                .fieldStyle(key: .secureText, true)
-                .fieldStyle(key: .configuration, .underlineShadow)
-                .fieldStyle(key: .required, .required(message: "Password is really required :("))
+            SWTextField(
+                title: "Your password",
+                text: $viewModel.passwordText
+            )
+            .fieldStyle(.secureText, true)
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.required, .required(message: "Password is really required :("))
         }
         .padding(spacing)
         .background(viewModel.backgroundColor)
@@ -86,10 +97,45 @@ struct FormView: View {
     
     private var middleSection: some View {
         VStack(spacing: spacing) {
-            Text("Middle")
+            Text("Account")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title)
                 .bold()
+            
+            SWPicker(
+                title: "Your animal",
+                data: viewModel.animals,
+                selection: $viewModel.animalSelection
+            )
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.pickerIcon, Image(systemName: "chevron.down.circle.fill"))
+            
+            HStack(alignment: .top, spacing: 16) {
+                SWTextField(
+                    title: "Your age",
+                    text: $viewModel.ageText
+                )
+                .fieldStyle(.configuration, viewModel.configuration)
+                .fieldStyle(.limitText, 2)
+                .fieldStyle(.disabled, .constant(viewModel.erroredFields.contains(0)))
+                
+                SWDatePicker(
+                    title: "Hour",
+                    type: .hour(),
+                    selection: $viewModel.hourDate
+                )
+                .fieldStyle(.configuration, viewModel.configuration)
+                .fieldStyle(.disabledIcon, Image(systemName: "lock.circle.fill"))
+                .fieldStyle(.disabled, .constant(viewModel.erroredFields.contains(1)))
+            }
+            
+            SWDatePicker(
+                title: "Your birthday",
+                type: .date(format: "dd-MM-yyyy"),
+                selection: $viewModel.birthdayDate
+            )
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.extraView, AnyView(dateExtraView))
         }
         .padding(spacing)
         .background(viewModel.backgroundColor)
@@ -99,10 +145,28 @@ struct FormView: View {
     
     private var bottomSection: some View {
         VStack(spacing: spacing) {
-            Text("Bottom")
+            Text("Description")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title)
                 .bold()
+            
+            SWTextEditor(
+                title: "Your notes",
+                text: $viewModel.notesText
+            )
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.required, .required(message: "We love your notes... Please enter at least 1 letter."))
+            .fieldStyle(.limitText, 500)
+            .fieldStyle(.height, 120)
+            
+            SWTextEditor(
+                title: "Additional info",
+                text: $viewModel.infoText
+            )
+            .fieldStyle(.configuration, viewModel.configuration)
+            .fieldStyle(.limitText, 500)
+            .fieldStyle(.height, 120)
+            .fieldStyle(.disabled, .constant(viewModel.erroredFields.contains(7)))
         }
         .padding(spacing)
         .background(viewModel.backgroundColor)
@@ -112,12 +176,68 @@ struct FormView: View {
     
     private var nameExtraView: some View {
         Rectangle()
-            .fill(.pink)
+            .fill(.indigo)
             .frame(width: 48)
             .overlay {
-                Image(systemName: "star")
+                Image(systemName: "person.fill")
                     .foregroundStyle(.white)
             }
+    }
+    
+    private var dateExtraView: some View {
+        Rectangle()
+            .fill(.indigo)
+            .frame(width: 48)
+            .overlay {
+                Image(systemName: "calendar")
+                    .foregroundStyle(.white)
+            }
+    }
+    
+    private var info: some View {
+        VStack {
+            Text("Focused field ID: \(String(describing: viewModel.focusedFieldID))")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("Errored fields: \(viewModel.erroredFields)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .font(.footnote)
+        .foregroundStyle(.gray)
+        .padding()
+    }
+    
+    private var changeStyleButton: some View {
+        Menu {
+            Button("Border") {
+                viewModel.configuration = .border
+            }
+            Button("Fill") {
+                viewModel.configuration = .fill
+            }
+            Button("Fill with shadow") {
+                viewModel.configuration = .fillShadow
+            }
+            Button("Underline") {
+                viewModel.configuration = .underline
+            }
+            Button("Underline with shadow") {
+                viewModel.configuration = .underlineShadow
+            }
+            Button("Combo") {
+                viewModel.configuration = .combo
+            }
+            Button("Combo with shadow") {
+                viewModel.configuration = .comboShadow
+            }
+        } label: {
+            Text("STYLE")
+                .padding(.horizontal, 12)
+                .padding(.vertical, 4)
+                .foregroundStyle(.white)
+                .background(.indigo)
+                .clipShape(Capsule())
+        }
+        .padding()
     }
     
     private var nextButton: some View {
@@ -129,7 +249,7 @@ struct FormView: View {
                 .frame(maxWidth: .infinity)
                 .font(.headline)
                 .foregroundStyle(.white)
-                .background(.pink)
+                .background(.indigo)
                 .clipShape(Capsule())
                 .padding()
         })
